@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+<title>A0 · Что такое рынок и цена — Уроки Скрепки</title>
+<style>
+  :root{
+    --bg:#0b0d13; --ink:#f4efe6; --mut:#a9a294; --dim:#6b6a72;
+    --mag:#ff3ea5; --lime:#c6ff4a; --cyan:#42e2ff; --amber:#ffcf4a; --red:#ff5a5a;
+    --panel:#141826; --panel2:#1b2033; --line:#2a2f45; --card:#10141f;
+    --r:18px; --maxw:520px;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html{scroll-behavior:smooth}
+  body{margin:0;color:var(--ink);
+    background:
+      radial-gradient(120% 60% at 50% -5%, rgba(255,62,165,.16), transparent 60%),
+      radial-gradient(90% 50% at 100% 110%, rgba(66,226,255,.10), transparent 55%),
+      var(--bg);
+    font:16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;}
+  .wrap{max-width:var(--maxw);margin:0 auto;position:relative}
+  /* scroll progress */
+  #prog{position:fixed;top:0;left:0;height:4px;width:0;z-index:60;
+    background:linear-gradient(90deg,var(--mag),var(--amber),var(--lime));box-shadow:0 0 12px rgba(255,62,165,.6)}
+  #fatigue{position:fixed;top:8px;right:10px;z-index:60;font:800 10px/1 ui-monospace,monospace;color:var(--dim);
+    background:rgba(16,20,31,.7);border:1px solid var(--line);border-radius:999px;padding:5px 9px;backdrop-filter:blur(6px)}
+  #fatigue b{color:var(--amber)}
+
+  /* hero */
+  .hero{position:relative;min-height:100svh;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden;
+    padding:24px 20px 40px}
+  .hero .bg{position:absolute;inset:-12% 0;z-index:0;background:url("assets/scenes/last-buyer.jpg") center 30%/cover no-repeat;
+    will-change:transform;filter:saturate(1.05) contrast(1.02)}
+  .hero .veil{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(11,13,19,.35),rgba(11,13,19,.72) 60%,var(--bg))}
+  .hero .content{position:relative;z-index:2}
+  .kick{font:800 11px/1.4 ui-monospace,monospace;letter-spacing:.12em;color:var(--mag);text-transform:uppercase}
+  h1{font-size:clamp(30px,9vw,44px);line-height:1.05;margin:.15em 0 .3em;font-weight:900;letter-spacing:-.01em}
+  h1 .g{color:var(--lime)}
+  .scrollcue{margin-top:18px;font-size:13px;color:var(--mut);display:flex;align-items:center;gap:8px}
+  .scrollcue .arw{animation:down 1.4s ease-in-out infinite}
+  @keyframes down{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
+
+  /* clippy */
+  .clippy{display:flex;gap:12px;align-items:flex-end}
+  .clippy img{width:60px;height:60px;object-fit:contain;filter:drop-shadow(0 6px 14px rgba(255,62,165,.3));animation:bob 3.4s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-6px) rotate(2deg)}}
+  .bubble{background:var(--panel2);border:1px solid var(--line);border-radius:16px 16px 16px 4px;padding:12px 14px;font-size:15px;flex:1}
+  .peek{position:fixed;right:8px;bottom:calc(12px + env(safe-area-inset-bottom));width:52px;height:52px;object-fit:contain;z-index:55;
+    filter:drop-shadow(0 4px 10px rgba(0,0,0,.6));transition:transform .3s;transform-origin:bottom right}
+  .peek.talk{animation:pop .4s ease}
+  @keyframes pop{0%{transform:scale(.6) rotate(-8deg)}60%{transform:scale(1.12)}100%{transform:scale(1)}}
+  .quip{position:fixed;right:66px;bottom:calc(18px + env(safe-area-inset-bottom));z-index:55;max-width:60vw;
+    background:var(--panel2);border:1px solid var(--line);border-radius:14px 14px 4px 14px;padding:9px 12px;font-size:13px;
+    opacity:0;transform:translateY(8px);transition:.35s;pointer-events:none}
+  .quip.show{opacity:1;transform:none}
+
+  /* sections */
+  section.blk{padding:34px 20px 8px;position:relative}
+  .blk h2{font-size:clamp(22px,6.4vw,30px);line-height:1.15;margin:.1em 0 .4em;font-weight:900}
+  .blk p{margin:.6em 0;color:#e7e1d5}
+  .mut{color:var(--mut)} .em{color:var(--cyan);font-weight:700} .warn{color:var(--red);font-weight:700}
+  .tag{display:inline-block;font:800 10px/1 ui-monospace,monospace;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--amber);border:1px solid var(--line);border-radius:999px;padding:6px 11px;margin-bottom:12px}
+
+  /* reveal-on-scroll */
+  [data-r]{opacity:0;transform:translateY(26px);transition:opacity .7s,transform .7s}
+  [data-r].in{opacity:1;transform:none}
+  [data-r="l"]{transform:translateX(-32px)} [data-r="r"]{transform:translateX(32px)}
+  [data-r="s"]{transform:scale(.9)}
+
+  /* framed scene image */
+  .scene{position:relative;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;margin:14px 0;box-shadow:0 18px 40px rgba(0,0,0,.4)}
+  .scene .ph{overflow:hidden;aspect-ratio:16/9;background:#000}
+  .scene img{width:100%;height:118%;object-fit:cover;display:block;will-change:transform}
+  .scene .cap{position:absolute;left:0;right:0;bottom:0;padding:22px 12px 10px;font-size:12.5px;color:#fff;
+    background:linear-gradient(transparent,rgba(6,8,12,.9));font-style:italic}
+  .scene .cap b{color:var(--lime);font-style:normal}
+
+  /* widgets */
+  .widget{border:1px solid var(--line);border-radius:var(--r);background:var(--panel);padding:14px;margin:14px 0}
+  .wlabel{font:800 10px/1 ui-monospace,monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--amber);margin-bottom:10px}
+  .hint{font-size:12.5px;color:var(--dim);margin-top:8px}
+  button.t{cursor:pointer;border:1px solid var(--line);background:var(--panel2);color:var(--ink);border-radius:12px;
+    padding:12px 14px;font-size:15px;width:100%;text-align:left;transition:.15s;margin:4px 0}
+  button.t:hover{border-color:var(--cyan)} button.t:active{transform:scale(.98)}
+  button.t.right{border-color:var(--lime);background:rgba(198,255,74,.14)}
+  button.t.wrong{border-color:var(--red);background:rgba(255,90,90,.14)}
+  .mini{text-align:center}
+
+  /* order book */
+  .book{font-family:ui-monospace,monospace;font-size:14px;display:grid;grid-template-columns:1fr auto 1fr;gap:2px;align-items:center}
+  .book .row{display:contents}
+  .book .ask,.book .bid{padding:5px 8px;border-radius:6px;transition:.25s}
+  .book .ask{color:var(--red);text-align:right}.book .bid{color:var(--lime)}
+  .book .mid{color:var(--mut);text-align:center;font-size:11px}
+  .book .row.hi .ask,.book .row.hi .bid{background:var(--panel2);outline:1px solid var(--cyan);transform:scale(1.03)}
+  .book .row.best .bid,.book .row.best .ask{font-weight:800}
+  .spread{text-align:center;font-size:12px;color:var(--cyan);letter-spacing:.05em;padding:3px 0}
+
+  /* tape */
+  .tape{display:flex;flex-wrap:wrap;gap:3px;justify-content:center}
+  .tick{width:14px;height:22px;border-radius:3px;background:var(--panel2);transition:.25s;transform:scale(.4);opacity:.3}
+  .tick.up{background:var(--lime)}.tick.down{background:var(--red)}.tick.played{transform:scale(1);opacity:1}
+  .stat{display:flex;justify-content:space-around;text-align:center;margin-top:10px}
+  .stat b{font:900 22px/1 ui-monospace,monospace;color:var(--cyan)} .stat span{font-size:11px;color:var(--dim);display:block}
+
+  table{border-collapse:collapse;width:100%;font-size:13.5px;margin:8px 0}
+  th,td{border:1px solid var(--line);padding:8px;text-align:left;vertical-align:top}
+  th{background:var(--panel2);color:var(--cyan)} td:first-child{color:var(--amber);font-weight:600}
+  .ascii{font-family:ui-monospace,monospace;font-size:12px;white-space:pre;overflow-x:auto;color:var(--mut);
+    background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px}
+  .slogan{font:900 clamp(17px,5vw,24px)/1.3 ui-monospace,monospace;color:var(--lime);text-transform:uppercase;
+    padding:14px;border:1px dashed var(--line);border-radius:var(--r);background:var(--card);margin:12px 0}
+
+  .flips{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .flip{perspective:600px;height:98px;cursor:pointer}
+  .flip .in{position:relative;width:100%;height:100%;transition:transform .5s;transform-style:preserve-3d}
+  .flip.go .in{transform:rotateY(180deg)}
+  .flip .f{position:absolute;inset:0;backface-visibility:hidden;border-radius:12px;border:1px solid var(--line);
+    background:var(--panel2);padding:10px;font-size:12.5px;display:flex;align-items:center;justify-content:center;text-align:center}
+  .flip .b{transform:rotateY(180deg);background:rgba(198,255,74,.12);border-color:var(--lime);color:var(--lime)}
+
+  ul.take{padding-left:18px} ul.take li{margin:.4em 0}
+  footer{padding:30px 20px 60px;text-align:center;color:var(--dim);font-size:12px}
+  #burst{position:fixed;inset:0;pointer-events:none;z-index:70}
+  .pt{position:fixed;width:8px;height:8px;border-radius:2px;will-change:transform,opacity}
+  #egg{position:fixed;left:50%;top:40%;transform:translate(-50%,-50%) scale(.8);z-index:80;background:var(--panel2);
+    border:1px solid var(--mag);border-radius:16px;padding:16px 20px;font-weight:800;color:var(--ink);opacity:0;pointer-events:none;transition:.3s;text-align:center}
+  #egg.show{opacity:1;transform:translate(-50%,-50%) scale(1)}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important}html{scroll-behavior:auto}[data-r]{transition:opacity .3s;transform:none}}
+</style>
+</head>
+<body>
+<div id="prog"></div>
+<div id="fatigue">Скрепка устала: <b id="fat">0%</b></div>
+
+<div class="wrap">
+  <!-- HERO -->
+  <header class="hero">
+    <div class="bg" data-px="0.12"></div><div class="veil"></div>
+    <div class="content">
+      <div class="kick">Департамент управляемой паники · лекция 0 · урок A0</div>
+      <h1>Что такое <span class="g">рынок</span> и <span class="g">цена</span></h1>
+      <div class="clippy">
+        <img src="assets/clippy.png" alt="Скрепка — уставший ассистент">
+        <div class="bubble">Опять ты. Садись, я Скрепка — ассистент из программы, которую все закрыли, но не выключили. Я видела слишком много графиков и слишком мало голов. Этот урок веду я, и у меня нет отпуска.</div>
+      </div>
+      <div class="scrollcue"><span class="arw">↓</span> крути вниз — части сами подтянутся. Как и твои убытки.</div>
+    </div>
+  </header>
+
+  <!-- 1 · THEORY -->
+  <section class="blk" data-sec="theory">
+    <div class="tag" data-r>[Т] Теория</div>
+    <h2 data-r>Цена — это не стоимость. Это след последней сделки.</h2>
+    <p data-r>Рынок — очередь заявок и очередь исполнений. <span class="em">Покупатели (bid)</span> толпятся слева, <span class="em">продавцы (ask)</span> — справа, а между ними зияет <b>спред</b>: крошечная пропасть из «хочу дешевле» и «не отдам дороже».</p>
+    <div class="scene" data-r="s">
+      <div class="ph"><img src="assets/scenes/crown.jpg" alt="Коронованный последний покупатель" data-px="0.06"></div>
+      <div class="cap"><b>«Коронация последнего покупателя».</b> Цена на экране — это вот этот парень. Его коронуют за то, что он устал спорить и принял чужую цену.</div>
+    </div>
+    <p data-r>Цена «99.9» не имеет метки «правильная». Это цифра последнего удара: один участник перестал ждать и <span class="warn">принял чужую цену</span>. Таких называют <b>агрессорами</b>. Агрессор пересекает спред — и именно он двигает график. Всё остальное — статисты в очереди.</p>
+    <div class="widget" data-r>
+      <div class="wlabel">Интерактив · потыкай стакан заявок</div>
+      <div class="book" id="book"></div>
+      <div class="spread">спред = <span class="em">0.2</span> · лучшая покупка 99.9 / лучшая продажа 100.1</div>
+      <button class="t mini" id="aggressor">▶ Кто сейчас агрессор?</button>
+      <div class="hint" id="aggressorHint">Нажми. Скрепка покажет, как чьё-то нетерпение пробивает спред.</div>
+    </div>
+  </section>
+
+  <!-- 2 · SCHEMA -->
+  <section class="blk" data-sec="schema">
+    <div class="tag" data-r>[Схема] Анатомия стакана</div>
+    <div class="scene" data-r="s">
+      <div class="ph"><img src="assets/scenes/funds.jpg" alt="Биржа, которая не могла упасть" data-px="0.05"></div>
+      <div class="cap"><b>«Биржа, которая не могла упасть».</b> «CUSTOMER FUNDS REMAIN AVAILABLE» — и очередь из тех, кто вежливо спрашивает «Can I have my money?».</div>
+    </div>
+    <div class="ascii" data-r>покупатели (bid)   ←   СТАКАН ЗАЯВОК   →   продавцы (ask)
+
+      bid 99.7  |  40            ask 100.3  | 12
+      bid 99.8  |  25            ask 100.2  |  8
+      bid 99.9  | <span class="em">100 ← лучший bid</span>       ask 100.1  |  <span class="warn">55 ← лучший ask</span>
+                       ── спред 0.2 ──
+        последняя сделка = 100.0</div>
+    <p class="mut" data-r>Пока никто не прыгнул через спред, цифра «100.0» просто висит как воспоминание. Стакан — это не прогноз. Это рентген чужого упрямства.</p>
+  </section>
+
+  <!-- 3 · EXAMPLE + tape -->
+  <section class="blk" data-sec="example">
+    <div class="tag" data-r>[П] Пример · одна минута рынка</div>
+    <h2 data-r>Почему цена выросла, а BTC «дороже» не стал</h2>
+    <p data-r>Архивная минута <b>BTC/USDT</b>, 200 сделок. Первые 160 прошли у bid 62 000–62 005 — тихая перекупка. Последние 40 ударили по ask 62 010–62 025 — покупатели устали и стали <span class="warn">агрессорами</span>, выгребая продажи. Последняя цифра выросла не из-за «справедливого подорожания», а потому что чьё-то нетерпение встало в очередь справа.</p>
+    <div class="widget" data-r>
+      <div class="wlabel">Интерактив · лента исполнений (саиграет, когда доскроллишь)</div>
+      <div class="tape" id="tape"></div>
+      <div class="stat"><div><b id="upN">0</b><span>удары по ask (агрессор-покупатель)</span></div><div><b id="dnN">0</b><span>удары по bid (агрессор-продавец)</span></div></div>
+      <button class="t mini" id="playTape">↻ Проиграть ещё раз</button>
+      <div class="hint" id="tapeStatus">Жди… Скрепка загружает ленту.</div>
+    </div>
+  </section>
+
+  <!-- 4 · TABLE -->
+  <section class="blk" data-sec="table">
+    <div class="tag" data-r>[Таблица] Наблюдение ≠ предсказание</div>
+    <div class="slogan" data-r data-scramble>ВЫВЕДКИ РАЗРЕШЕНЫ ТОЛЬКО ТЕ, КОТОРЫМ НЕ ВЕРИТ БУХГАЛТЕРИЯ</div>
+    <table data-r>
+      <thead><tr><th>Что видно</th><th>Что это значит</th><th>Чего это НЕ значит</th></tr></thead>
+      <tbody>
+        <tr><td>15 из 20 сделок по ask</td><td>Покупатели были агрессорами в этой минуте</td><td>Что следующая минута вверх</td></tr>
+        <tr><td>Резкий зелёный всплеск</td><td>Выбита тонкая ликвидность справа</td><td>Что «пришли умные деньги»</td></tr>
+        <tr><td>Последняя цена = 100.0</td><td>След последнего исполнения</td><td>Справедливую стоимость</td></tr>
+        <tr><td>Объём зелёных ×2</td><td>Дисбаланс потока. Точка.</td><td>Гарантию направления</td></tr>
+      </tbody>
+    </table>
+    <p class="mut" data-r>Без позиции результат любого наблюдения равен <span class="em">0R</span> — ноль риска, ноль прибыли. Вход — по своему сетапу, а не по чужому адреналину.</p>
+  </section>
+
+  <!-- 5 · DECISION quiz -->
+  <section class="blk" data-sec="quiz">
+    <div class="tag" data-r>[Р] Задача · выбери действие</div>
+    <h2 data-r>Лента финала: 15 зелёных по ask, 5 красных по bid, объём зелёных ×2.</h2>
+    <div class="widget" id="quiz" data-r>
+      <button class="t" data-correct="0">а) Цена обязана расти — слишком много покупателей 🙈</button>
+      <button class="t" data-correct="1">б) Покупатель был агрессором, но направление не гарантировано 🧾</button>
+      <button class="t" data-correct="0">в) Продавец был агрессором 🤡</button>
+      <div class="hint" id="quizHint">Скрепка одобряет ровно один ответ. И это не тот, где есть слово «обязан».</div>
+    </div>
+  </section>
+
+  <!-- 6 · DEBRIEF -->
+  <section class="blk" data-sec="debrief">
+    <div class="tag" data-r>[Д] Разбор</div>
+    <div class="scene" data-r="s">
+      <div class="ph"><img src="assets/scenes/mistake.jpg" alt="Департамент: каждая ошибка — сущность" data-px="0.05"></div>
+      <div class="cap"><b>«Департамент дорогих уроков».</b> Здесь «EVERY MISTAKE IS AN ENTITY», а «PAIN HAS BEEN CATEGORIZED». Твой убыток уже завели в базу. С уважением.</div>
+    </div>
+    <h2 data-r>Верно — (б)</h2>
+    <p data-r><span class="em">Агрессор</span> — тот, кто принял чужую цену. Здесь покупатель ударил по ask и забрал продажи. Это даёт краткий дисбаланс потока — и всё. Никаких обещаний на следующую минуту.</p>
+    <p data-r>«Цена обязана расти» — это не анализ, это ставка толпы на собственное настроение. Рынок ничего не должен. Он просто следующий в очереди.</p>
+    <p class="mut" data-r>Цепочка взрослости: <b>наблюдение</b> (был агрессор) → <b>гипотеза</b> (может продолжиться) → <b>сетап</b> (своё правило) → <b>0R до входа</b>. Всё остальное — суеверие с громким именем.</p>
+  </section>
+
+  <!-- 7 · EXAM -->
+  <section class="blk" data-sec="exam">
+    <div class="tag" data-r>[Э] Экзамен · тыкни карточку — перевернётся</div>
+    <div class="flips" id="flips" data-r></div>
+    <div class="hint">Не подглядывай. Скрепка всё равно заметит — у неё глаз наметан на халяву.</div>
+  </section>
+
+  <!-- 8 · CLOSING -->
+  <section class="blk" data-sec="done">
+    <div class="tag" data-r>Итог · забери с урока</div>
+    <div class="scene" data-r="s">
+      <div class="ph"><img src="assets/scenes/department.jpg" alt="Департамент дорогих уроков" data-px="0.08"></div>
+      <div class="cap"><b>Департамент благодарит.</b> «THE SYSTEM IS WORKING AS INTENDED». Теперь и ты знаешь, как именно.</div>
+    </div>
+    <div class="slogan" data-r data-scramble>ЦЕНА — ЭТО НЕ ЧИСЛО. ЭТО СЛЕД ЧЬЕГО-ТО НЕТЕРПЕНИЯ.</div>
+    <ul class="take" data-r>
+      <li>Цена = след последней <b>исполненной</b> сделки, а не «справедливая стоимость».</li>
+      <li>Рынок = стакан заявок + лента. Спред — пропасть между ними.</li>
+      <li><span class="em">Агрессор</span> принимает чужую цену и двигает график.</li>
+      <li>Дисбаланс потока = наблюдение, не прогноз. До входа — <span class="em">0R</span>.</li>
+    </ul>
+    <p class="mut" data-r>Дальше — <b>A1 · Биржа, пара и заявка</b>: приоритет цены и времени. Скрепка останется в углу. Она никуда не денется. В отличие от твоих стопов.</p>
+    <button class="t mini" id="restart" data-r>↑ Наверх, к началу урока</button>
+  </section>
+
+  <footer>A0 · «Что такое рынок и цена» · голос и метод — Скрепка. Иллюстрации: сцены Департамента (нарезаны из архива mostscenes).</footer>
+</div>
+
+<img class="peek" id="peek" src="assets/clippy.png" alt="">
+<div class="quip" id="quip"></div>
+<div id="burst"></div>
+<div id="egg">🖱 Слишком быстро!<br><span style="font-size:12px;color:var(--mut);font-weight:400">Скрепка не успевает. Рынок, впрочем, тоже.</span></div>
+
+<script>
+/* ===== motion (по мотивам SA) ===== */
+const clamp=(v,a=0,b=1)=>Math.min(b,Math.max(a,v)),lerp=(a,b,t)=>a+(b-a)*t,rand=(a,b)=>a+Math.random()*(b-a);
+const easeOut=t=>1-Math.pow(1-t,3);
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+function shake(n,p=9,d=.4){if(RM)return;const t0=performance.now();(function f(){const t=clamp((performance.now()-t0)/(d*1000));const k=p*(1-t)*(1-t);n.style.transform=`translate(${rand(-k,k).toFixed(1)}px,${rand(-k,k).toFixed(1)}px)`;if(t<1)requestAnimationFrame(f);else n.style.transform='';})();}
+function roll(n,from,to,dur=.8,fmt=v=>Math.round(v)){if(RM){n.textContent=fmt(to);return;}const t0=performance.now();(function f(){const t=clamp((performance.now()-t0)/(dur*1000));n.textContent=fmt(lerp(from,to,easeOut(t)));if(t<1)requestAnimationFrame(f);})();}
+function scramble(node){const full=node.dataset.txt||node.textContent;node.dataset.txt=full;if(RM){node.textContent=full;return;}const G="АБВГДЕЖ#$%&*01<>█▓";const t0=performance.now(),dur=1200;(function f(){const t=clamp((performance.now()-t0)/dur);const n=Math.floor(easeOut(t)*full.length);let o=full.slice(0,n);for(let i=n;i<full.length;i++)o+=full[i]===' '?' ':G[(Math.random()*G.length)|0];node.textContent=o;if(t<1)requestAnimationFrame(f);else node.textContent=full;})();}
+function burst(x,y){if(RM)return;const cols=['#ff3ea5','#c6ff4a','#42e2ff','#ffcf4a'];for(let i=0;i<28;i++){const p=document.createElement('div');p.className='pt';p.style.background=cols[i%4];p.style.left=x+'px';p.style.top=y+'px';$('#burst').appendChild(p);const a=Math.random()*6.28,sp=rand(140,340),vx=Math.cos(a)*sp,vy=Math.sin(a)*sp-160;let px=x,py=y,t0=performance.now();(function f(){const t=(performance.now()-t0)/1000;px+=vx*.016;py+=(vy+900*t)*.016;p.style.transform=`translate(${px-x}px,${py-y}px) rotate(${t*400}deg)`;p.style.opacity=String(clamp(1-t/.9));if(t<.9)requestAnimationFrame(f);else p.remove();})();}}
+function haptic(){try{if(navigator.userActivation&&navigator.userActivation.isActive&&navigator.vibrate)navigator.vibrate(12);}catch(e){}};
+
+/* ===== reveal on scroll ===== */
+const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');
+  if(e.target.hasAttribute('data-scramble'))scramble(e.target);io.unobserve(e.target);}});},{threshold:.2});
+$$('[data-r]').forEach(el=>io.observe(el));
+
+/* ===== scroll: progress + fatigue + parallax ===== */
+const px=$$('[data-px]');
+let lastY=0,eggT=0;
+function onScroll(){
+  const y=scrollY,h=document.documentElement.scrollHeight-innerHeight;
+  $('#prog').style.width=clamp(y/h)*100+'%';
+  $('#fat').textContent=Math.round(clamp(y/h)*100)+'%';
+  if(!RM){for(const el of px){const r=el.getBoundingClientRect();const c=r.top+r.height/2-innerHeight/2;el.style.transform=`translateY(${(-c*(+el.dataset.px)).toFixed(1)}px)`;}}
+  // easter egg: super-fast scroll
+  if(Math.abs(y-lastY)>1400){const e=$('#egg');e.classList.add('show');clearTimeout(eggT);eggT=setTimeout(()=>e.classList.remove('show'),1400);}
+  lastY=y;
+}
+addEventListener('scroll',()=>requestAnimationFrame(onScroll),{passive:true});onScroll();
+
+/* ===== section spy → quips ===== */
+const QUIPS={theory:"Цена — это вчерашний оптимист, который согласился на чужую цифру.",schema:"Стакан не врёт. Он просто вежливо молчит, пока кто-то не прыгнет через спред.",example:"Выросло не «дороже». Выросло «больше людей устали ждать».",table:"Видеть — можно. Предсказывать — потом, с бумагой и риском.",quiz:"Выбирай. Только не сердись на Скрепку за правильный ответ.",debrief:"Каждый убыток тут — сущность. Заведённая. С номером.",exam:"Проверим, что улеглось. Скрепка за тобой следит.",done:"Итог: цена — след чужого нетерпения. Твоё ещё впереди (учебное)."};
+const spy=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){const s=e.target.dataset.sec;const q=$('#quip');q.textContent=QUIPS[s]||'';q.classList.add('show');const pk=$('#peek');pk.classList.remove('talk');void pk.offsetWidth;pk.classList.add('talk');}});},{threshold:.5});
+$$('[data-sec]').forEach(s=>spy.observe(s));
+
+/* ===== order book ===== */
+const bookData={ask:[[100.3,12],[100.2,8],[100.1,55]],bid:[[99.9,100],[99.8,25],[99.7,40]]};
+(function(){const b=$('#book');bookData.ask.forEach(([p,q])=>b.insertAdjacentHTML('beforeend',`<div class="row"><div></div><div class="mid">ask</div><div class="ask">${p} · ${q}</div></div>`));b.insertAdjacentHTML('beforeend',`<div class="row"><div class="bid" style="text-align:center;grid-column:1/4;color:var(--cyan)">0.2 — СПРЕД — ⇅</div></div>`);bookData.bid.forEach(([p,q])=>b.insertAdjacentHTML('beforeend',`<div class="row"><div class="bid">${p} · ${q}</div><div class="mid">bid</div><div></div></div>`));$$('#book .row').forEach(r=>{if(/100.1 · 55/.test(r.textContent)||/99.9 · 100/.test(r.textContent))r.classList.add('best');});})();
+$('#aggressor').onclick=()=>{$$('#book .row').forEach(r=>r.classList.remove('hi'));haptic();
+  $$('#book .row').forEach(r=>{if(/99.9 · 100/.test(r.textContent)||/100.1 · 55/.test(r.textContent))r.classList.add('hi');});
+  $('#aggressorHint').innerHTML='Покупатель устал ждать и ударил <b>по ask 100.1</b> — это <span class="warn">агрессор</span>. Пересёк спред, и последняя сделка теперь 100.1. Направление? Не обещаем.';
+  const rc=$('#book').getBoundingClientRect();burst(rc.left+rc.width/2,rc.top+30);};
+
+/* ===== tape (auto-play on scroll) ===== */
+const tape=[...Array(15)].fill(1).concat([...Array(5)].fill(0));
+(function(){const t=$('#tape');tape.forEach((up,i)=>{const d=document.createElement('div');d.className='tick '+(up?'up':'down');d.onclick=()=>{$$('#tape .tick').forEach(x=>x.style.outline='');d.style.outline='2px solid var(--cyan)';haptic();$('#tapeStatus').textContent=`Сделка ${i+1}: `+(up?'покупатель-агрессор ударил ПО ASK ↑ — забрал продажи.':'продавец-агрессор ударил ПО BID ↓ — сбросил в книгу.');};t.appendChild(d);});})();
+function playTape(){const ticks=$$('#tape .tick');ticks.forEach(x=>x.classList.remove('played'));$('#tapeStatus').textContent='Лента идёт… смотри глазами наблюдателя.';let i=0;const step=()=>{if(i>=ticks.length){roll($('#upN'),0,15,.7);roll($('#dnN'),0,5,.7);const bx=$('#tape').getBoundingClientRect();burst(bx.left+bx.width/2,bx.top);$('#tapeStatus').textContent='15 против 5. Это факт минуты, а не прогноз следующей.';return;}ticks[i].classList.add('played');haptic();i++;setTimeout(step,RM?0:90);};step();}
+$('#playTape').onclick=playTape;
+let tapePlayed=false;
+new IntersectionObserver((es,o)=>{es.forEach(e=>{if(e.isIntersecting&&!tapePlayed){tapePlayed=true;setTimeout(playTape,350);o.disconnect();}});},{threshold:.6}).observe($('[data-sec="example"]'));
+
+/* ===== quiz ===== */
+$$('#quiz .t').forEach(b=>b.onclick=()=>{const ok=b.dataset.correct==='1';$$('#quiz .t').forEach(x=>x.classList.remove('right','wrong'));
+  if(ok){b.classList.add('right');$('#quizHint').innerHTML='<span class="em">Точно.</span> Агрессор — покупатель по ask. Но это наблюдение, не прогноз. До входа — 0R. Скрепка почти довольна (это максимум для неё).';haptic();const r=b.getBoundingClientRect();burst(r.left+r.width/2,r.top);}
+  else{b.classList.add('wrong');shake($('#quiz'));$('#quizHint').innerHTML='<span class="warn">Нет.</span> Слово «обязан» в трейдинге стоит дороже, чем сама сделка. Кто принял чужую цену и гарантировал направление?.. Ещё раз.';}});
+
+/* ===== exam flip ===== */
+const exam=[["Где лучший bid?","Самая высокая заявка на покупку"],["Где лучший ask?","Самая низкая заявка на продажу"],["Что показывает последняя сделка?","Цену последнего исполнения"],["Кто агрессор при покупке по ask?","Покупатель"],["Есть ли у цены метка «справедливая»?","Нет"]];
+const fl=$('#flips');exam.forEach(([q,a])=>{const d=document.createElement('div');d.className='flip';d.innerHTML=`<div class="in"><div class="f">${q}</div><div class="f b">${a}</div></div>`;d.onclick=()=>{d.classList.toggle('go');haptic();};fl.appendChild(d);});
+
+$('#restart').onclick=()=>scrollTo({top:0,behavior:RM?'auto':'smooth'});
+</script>
+</body>
+</html>
