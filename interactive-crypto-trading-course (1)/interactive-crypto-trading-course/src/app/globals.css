@@ -1,0 +1,170 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #e9eef7;
+  --ink: #39415f;
+  --mute: #7f8aa8;
+  --sh-d: rgba(159, 176, 204, 0.62);
+  --sh-l: #ffffff;
+  --blue: #5b7cfa;
+  --up: #2fbf86;
+  --down: #f2647a;
+  --amber: #ffb23f;
+  --violet: #8b6cf6;
+  --teal: #2bc0c4;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background:
+    radial-gradient(1200px 600px at 10% -10%, #f9fbff 0%, transparent 60%),
+    radial-gradient(900px 500px at 100% 10%, #f3e9f7 0%, transparent 55%),
+    linear-gradient(180deg, #edf1f9, #e4eaf5);
+  background-attachment: fixed;
+  color: var(--ink);
+  font-family: "Nunito", "SF Pro Rounded", "Segoe UI", system-ui, -apple-system, sans-serif;
+  min-height: 100vh;
+}
+
+.neo {
+  background: linear-gradient(145deg, #fbfcff, #e8edf7);
+  box-shadow: 12px 12px 26px var(--sh-d), -12px -12px 26px var(--sh-l);
+  border-radius: 32px;
+}
+.neo-s {
+  background: linear-gradient(145deg, #fbfcff, #e9eef8);
+  box-shadow: 6px 6px 14px var(--sh-d), -6px -6px 14px var(--sh-l);
+  border-radius: 22px;
+}
+.neo-in {
+  background: #e5eaf5;
+  box-shadow: inset 6px 6px 12px var(--sh-d), inset -6px -6px 12px var(--sh-l);
+  border-radius: 22px;
+}
+.neo-btn {
+  background: linear-gradient(145deg, #fbfcff, #e8edf7);
+  box-shadow: 6px 6px 14px var(--sh-d), -6px -6px 14px var(--sh-l);
+  border-radius: 999px;
+  font-weight: 800;
+  transition: all 0.15s ease;
+  cursor: pointer;
+  color: var(--ink);
+}
+.neo-btn:hover {
+  transform: translateY(-1px);
+}
+.neo-btn:active,
+.neo-btn[data-on="true"] {
+  box-shadow: inset 4px 4px 9px var(--sh-d), inset -4px -4px 9px var(--sh-l);
+  transform: none;
+}
+.neo-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.btn-primary {
+  background: linear-gradient(145deg, #7d98ff, #4e6ff0);
+  color: #fff;
+  box-shadow: 6px 6px 14px rgba(78, 111, 240, 0.35), -4px -4px 10px var(--sh-l);
+}
+.btn-primary:active {
+  box-shadow: inset 3px 3px 8px rgba(0, 0, 40, 0.3);
+}
+.btn-danger {
+  background: linear-gradient(145deg, #ff8fa0, #e04662);
+  color: #fff;
+}
+
+.headline {
+  font-family: "Arial Black", "Impact", "Helvetica Neue", system-ui, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  line-height: 1.02;
+}
+.marker {
+  background: linear-gradient(transparent 58%, rgba(255, 178, 63, 0.55) 58%, rgba(255, 178, 63, 0.55) 92%, transparent 92%);
+  padding: 0 0.15em;
+}
+.stamp {
+  display: inline-block;
+  border: 3px solid var(--down);
+  color: var(--down);
+  border-radius: 10px;
+  padding: 2px 10px;
+  font-weight: 900;
+  text-transform: uppercase;
+  transform: rotate(-4deg);
+  letter-spacing: 0.06em;
+  font-size: 0.75rem;
+}
+.kicker {
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--mute);
+}
+
+@keyframes ticker {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.ticker-track {
+  display: flex;
+  width: max-content;
+  animation: ticker 70s linear infinite;
+}
+.ticker-track:hover {
+  animation-play-state: paused;
+}
+@keyframes floaty {
+  0%, 100% { transform: translateY(0) rotate(-1deg); }
+  50% { transform: translateY(-10px) rotate(1deg); }
+}
+.floaty {
+  animation: floaty 6s ease-in-out infinite;
+}
+@keyframes pop {
+  from { opacity: 0; transform: translateY(8px) scale(0.98); }
+  to { opacity: 1; transform: none; }
+}
+.pop {
+  animation: pop 0.35s ease both;
+}
+
+.rich strong { font-weight: 900; color: #2b3352; }
+.rich em { font-style: italic; }
+.rich code {
+  background: #dfe6f4;
+  border-radius: 8px;
+  padding: 1px 7px;
+  font-size: 0.88em;
+  font-weight: 700;
+  color: #4a57c9;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+.diagram {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  white-space: pre-wrap;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: #3a4470;
+}
+.field {
+  background: #e5eaf5;
+  box-shadow: inset 4px 4px 9px var(--sh-d), inset -4px -4px 9px var(--sh-l);
+  border-radius: 18px;
+  padding: 10px 14px;
+  width: 100%;
+  outline: none;
+  font-weight: 600;
+  color: var(--ink);
+}
+.field:focus {
+  box-shadow: inset 4px 4px 9px var(--sh-d), inset -4px -4px 9px var(--sh-l), 0 0 0 3px rgba(91, 124, 250, 0.35);
+}
+.scroll-x::-webkit-scrollbar { height: 8px; }
+.scroll-x::-webkit-scrollbar-thumb { background: #c9d3e8; border-radius: 99px; }
