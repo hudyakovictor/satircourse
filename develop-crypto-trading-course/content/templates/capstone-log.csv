@@ -1,0 +1,2 @@
+trade_no,date_utc,week,market,setup_code,strategy_version,regime,risk_R,entry_fill,stop_price,exit_price,net_R,fees_R,slippage_R,checklist_complete,journal_complete,critical_error,process_pass,review_note
+001,YYYY-MM-DD,1,ASSET/USDT,SETUP-01,v1.0,trend,1,,,,,,,,,,, 

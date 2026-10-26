@@ -1,0 +1,2 @@
+trade_id,date_utc,market,data_source,timeframe,setup_code,strategy_version,regime,signal_visible_at,entry_rule,entry_price,stop_price,target_rule,exit_price,gross_R,fee_R,spread_R,slippage_R,net_R,outcome,lookahead_check,survivorship_check,screenshot,notes
+BT-001,YYYY-MM-DD,ASSET/USDT,source,4H,SETUP-01,v1.0,trend,,,,,,,,,,,,pass,pass,,

@@ -1,0 +1,2 @@
+trade_id,date_utc,market,setup_code,strategy_version,regime,higher_tf_context,entry_plan,entry_fill,order_type,stop_price,target_plan,position_size,risk_usd,planned_RR,fees_usd,slippage_usd,exit_price,net_pnl_usd,net_R,process_pass,checklist_complete,error_tags,emotion_before,emotion_after,screenshot_before,screenshot_after,notes
+EXAMPLE-001,YYYY-MM-DD,ASSET/USDT,SETUP-01,v1.0,trend,HH_HL_above_MA,,,,,,,,,,,,,,,,,,,,,
